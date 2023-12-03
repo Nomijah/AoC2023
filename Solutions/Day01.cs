@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AoC2023.Solutions
+﻿namespace AoC2023.Solutions
 {
-    public class DayOne
+    public class Day01
     {
         public static int SolutionA()
         {
-            string[] input = TextFormatter.ToLines("C:\\Users\\pette\\source\\repos\\AoC2023\\Data\\Day1a.txt");
+            string[] input = TextFormatter.ToLines("C:\\Users\\pette\\source\\repos\\AoC2023\\Data\\Day1.txt");
 
             List<string> numbers = [];
 
@@ -50,7 +44,7 @@ namespace AoC2023.Solutions
 
         public static int SolutionB()
         {
-            string[] input = TextFormatter.ToLines("C:\\Users\\pette\\source\\repos\\AoC2023\\Data\\Day1a.txt");
+            string[] input = TextFormatter.ToLines("C:\\Users\\pette\\source\\repos\\AoC2023\\Data\\Day1.txt");
             //string[] input = "two1nine\r\neightwothree\r\nabcone2threexyz\r\nxtwone3four\r\n4nineeightseven2\r\nzoneight234\r\n7pqrstsixteen".Split('\n');
             //string[] input = "qzhmmsqfc7\r\n3kbklxmh".Split('\n');
             //string[] input = ["449three45three"];
