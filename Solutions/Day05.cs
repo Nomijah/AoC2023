@@ -12,43 +12,43 @@ namespace AoC2023.Solutions
         //public static string[] input = testData.Split('\n', StringSplitOptions.TrimEntries);
         public static string[] input = TextFormatter.ToLines("C:\\Users\\pette\\source\\repos\\AoC2023\\Data\\Day5.txt");
 
-        public static long SolutionA()
-        {
-            int first = input.ToList().IndexOf("seed-to-soil map:");
-            int second = input.ToList().IndexOf("soil-to-fertilizer map:");
-            int third = input.ToList().IndexOf("fertilizer-to-water map:");
-            int fourth = input.ToList().IndexOf("water-to-light map:");
-            int fifth = input.ToList().IndexOf("light-to-temperature map:");
-            int sixth = input.ToList().IndexOf("temperature-to-humidity map:");
-            int seventh = input.ToList().IndexOf("humidity-to-location map:");
+        //public static long SolutionA()
+        //{
+        //    int first = input.ToList().IndexOf("seed-to-soil map:");
+        //    int second = input.ToList().IndexOf("soil-to-fertilizer map:");
+        //    int third = input.ToList().IndexOf("fertilizer-to-water map:");
+        //    int fourth = input.ToList().IndexOf("water-to-light map:");
+        //    int fifth = input.ToList().IndexOf("light-to-temperature map:");
+        //    int sixth = input.ToList().IndexOf("temperature-to-humidity map:");
+        //    int seventh = input.ToList().IndexOf("humidity-to-location map:");
 
-            List<string> seedSoil = input[(first + 1)..(second - 1)].ToList();
-            List<string> soilFert = input[(second + 1)..(third - 1)].ToList();
-            List<string> fertWater = input[(third + 1)..(fourth - 1)].ToList();
-            List<string> waterLight = input[(fourth + 1)..(fifth - 1)].ToList();
-            List<string> lightTemp = input[(fifth + 1)..(sixth - 1)].ToList();
-            List<string> tempHum = input[(sixth + 1)..(seventh - 1)].ToList();
-            List<string> humLoc = input[(seventh + 1)..(input.Length)].ToList();
+        //    List<string> seedSoil = input[(first + 1)..(second - 1)].ToList();
+        //    List<string> soilFert = input[(second + 1)..(third - 1)].ToList();
+        //    List<string> fertWater = input[(third + 1)..(fourth - 1)].ToList();
+        //    List<string> waterLight = input[(fourth + 1)..(fifth - 1)].ToList();
+        //    List<string> lightTemp = input[(fifth + 1)..(sixth - 1)].ToList();
+        //    List<string> tempHum = input[(sixth + 1)..(seventh - 1)].ToList();
+        //    List<string> humLoc = input[(seventh + 1)..(input.Length)].ToList();
 
 
 
-            string[] seedData = input[0].Split(' ');
-            List<long> seeds = seedData[1..].ToList().Select(x => Convert.ToInt64(x)).ToList();
+        //    string[] seedData = input[0].Split(' ');
+        //    List<long> seeds = seedData[1..].ToList().Select(x => Convert.ToInt64(x)).ToList();
 
-            for (int i = 0; i < seeds.Count; i++)
-            {
-                seeds[i] = Converter(
-                    Converter(
-                        Converter(
-                            Converter(
-                                Converter(
-                                    Converter(
-                                        Converter(seeds[i], seedSoil), soilFert), fertWater), waterLight), lightTemp), tempHum), humLoc);
+        //    for (int i = 0; i < seeds.Count; i++)
+        //    {
+        //        seeds[i] = Converter(
+        //            Converter(
+        //                Converter(
+        //                    Converter(
+        //                        Converter(
+        //                            Converter(
+        //                                Converter(seeds[i], seedSoil), soilFert), fertWater), waterLight), lightTemp), tempHum), humLoc);
 
-            }
+        //    }
 
-            return seeds.Min();
-        }
+        //    return seeds.Min();
+        //}
 
         public static long SolutionB()
         {
@@ -60,22 +60,31 @@ namespace AoC2023.Solutions
             int sixth = input.ToList().IndexOf("temperature-to-humidity map:");
             int seventh = input.ToList().IndexOf("humidity-to-location map:");
 
-            List<string> seedSoil = input[(first + 1)..(second - 1)].ToList();
-            List<string> soilFert = input[(second + 1)..(third - 1)].ToList();
-            List<string> fertWater = input[(third + 1)..(fourth - 1)].ToList();
-            List<string> waterLight = input[(fourth + 1)..(fifth - 1)].ToList();
-            List<string> lightTemp = input[(fifth + 1)..(sixth - 1)].ToList();
-            List<string> tempHum = input[(sixth + 1)..(seventh - 1)].ToList();
-            List<string> humLoc = input[(seventh + 1)..(input.Length)].ToList();
+            string[] seedSoil1 = input[(first + 1)..(second - 1)].ToArray();
+            string[] soilFert1 = input[(second + 1)..(third - 1)].ToArray();
+            string[] fertWater1 = input[(third + 1)..(fourth - 1)].ToArray();
+            string[] waterLight1 = input[(fourth + 1)..(fifth - 1)].ToArray();
+            string[] lightTemp1 = input[(fifth + 1)..(sixth - 1)].ToArray();
+            string[] tempHum1 = input[(sixth + 1)..(seventh - 1)].ToArray();
+            string[] humLoc1 = input[(seventh + 1)..(input.Length)].ToArray();
+
+            long[,] seedSoil = RuleConverter(seedSoil1);
+            long[,] soilFert = RuleConverter(soilFert1);
+            long[,] fertWater = RuleConverter(fertWater1);
+            long[,] waterLight = RuleConverter(waterLight1);
+            long[,] lightTemp = RuleConverter(lightTemp1);
+            long[,] tempHum = RuleConverter(tempHum1);
+            long[,] humLoc = RuleConverter(humLoc1);
 
             string[] seedData = input[0].Split(' ');
-            List<long> seedData2 = seedData[1..].ToList().Select(x => Convert.ToInt64(x)).ToList();
+            long[] seedData2 = seedData[1..].Select(x => Convert.ToInt64(x)).ToArray();
 
             long currentLowest = 0;
             bool firstSet = false;
 
-            for (int i = 0; i < seedData2.Count; i += 2)
+            for (int i = 0; i < seedData2.Length; i += 2)
             {
+                Console.WriteLine("ny runda");
                 for (long j = seedData2[i]; j < seedData2[i] + seedData2[i + 1]; j++)
                 {
                     long temp = Converter(
@@ -96,7 +105,7 @@ namespace AoC2023.Solutions
                         
                     }
                     //Console.WriteLine(j);
-                    Console.WriteLine(currentLowest);
+                    //Console.WriteLine(currentLowest);
                 }
             }
             //foreach (var s in seeds)
@@ -106,18 +115,29 @@ namespace AoC2023.Solutions
             return currentLowest;
         }
 
-        public static long Converter(long item, List<string> rules)
+        public static long Converter(long item, long[,] rules)
         {
-            foreach (var rule in rules)
+            for (long i = 0; i < rules.Length;i++)
             {
-                List<long> data = rule.Split(' ').ToList().Select(x => Convert.ToInt64(x)).ToList();
-                if (item >= data[1] && item <= data[1] + data[2])
+                if (item >= rules[i,1] && item <= rules[i,1] + rules[i,2])
                 {
-                    return item += data[0] - data[1];
+                    return item += rules[i,0] - rules[i,1];
                 }
             }
             return item;
         }
 
+        public static long[,] RuleConverter(string[] rules)
+        {
+            long[,] result = new long[rules.Length,3];
+            for (int i = 0; i < rules.Length;i++)
+            {
+                long[] data = rules[i].Split(' ').Select(x => Convert.ToInt64(x)).ToArray();
+                result[i,0] = data[0];
+                result[i,1] = data[1]; 
+                result[i,2] = data[2];
+            }
+            return result;
+        }
     }
 }
