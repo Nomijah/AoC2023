@@ -79,63 +79,113 @@ namespace AoC2023.Solutions
             string[] seedData = input[0].Split(' ');
             long[] seedData2 = seedData[1..].Select(x => Convert.ToInt64(x)).ToArray();
 
-            long currentLowest = 0;
-            bool firstSet = false;
+            //for (int i = 0; i < seedData2.Length; i++)
+            //{
+            //    Console.WriteLine(seedData2[i]);
+            //}
 
-            for (int i = 0; i < seedData2.Length; i += 2)
+            //WriteMatchingIndex(seedData2, seedSoil);
+            //Console.WriteLine();
+            //WriteMatchingIndex(seedData2, soilFert);
+            //Console.WriteLine();
+            //WriteMatchingIndex(seedData2, fertWater);
+            //Console.WriteLine();
+            //WriteMatchingIndex(seedData2, waterLight);
+            //Console.WriteLine();
+            //WriteMatchingIndex(seedData2, lightTemp);
+            //Console.WriteLine();
+            //WriteMatchingIndex(seedData2, tempHum);
+            //Console.WriteLine();
+            //WriteMatchingIndex(seedData2, humLoc);
+
+            long[] p1 = [seedData2[0], seedData2[1]];
+            List<long> p1b = new();
+            for (long j = p1[0]; j <= p1[0] + p1[1]; j++)
             {
-                Console.WriteLine("ny runda");
-                for (long j = seedData2[i]; j < seedData2[i] + seedData2[i + 1]; j++)
+                long temp = Converter(j, seedSoil);
+                if (!p1b.Contains(temp))
                 {
-                    long temp = Converter(
-                        Converter(
-                            Converter(
-                                Converter(
-                                    Converter(
-                                        Converter(
-                                            Converter(j, seedSoil), soilFert), fertWater), waterLight), lightTemp), tempHum), humLoc);
-                    if (!firstSet)
-                    {
-                        currentLowest = temp;
-                        firstSet = true;
-                    }
-                    else if (temp < currentLowest)
-                    {
-                        currentLowest = temp;
-                        
-                    }
-                    //Console.WriteLine(j);
-                    //Console.WriteLine(currentLowest);
+                    p1b.Add(temp);
                 }
             }
-            //foreach (var s in seeds)
+            Console.WriteLine(p1[1]);
+            Console.WriteLine(p1b.Count);
+            //long currentLowest = 0;
+            //bool firstSet = false;
+
+            //for (int i = 0; i < seedData2.Length; i += 2)
             //{
-            //    Console.WriteLine(s);
+            //    Console.WriteLine("ny runda");
+            //    for (long j = seedData2[i]; j < seedData2[i] + seedData2[i + 1]; j++)
+            //    {
+            //        long temp = Converter(
+            //            Converter(
+            //                Converter(
+            //                    Converter(
+            //                        Converter(
+            //                            Converter(
+            //                                Converter(j, seedSoil), soilFert), fertWater), waterLight), lightTemp), tempHum), humLoc);
+            //        if (!firstSet)
+            //        {
+            //            currentLowest = temp;
+            //            firstSet = true;
+            //        }
+            //        else if (temp < currentLowest)
+            //        {
+            //            currentLowest = temp;
+
+            //        }
+            //        //Console.WriteLine(j);
+            //        //Console.WriteLine(currentLowest);
+            //    }
             //}
-            return currentLowest;
+
+            return 0;
         }
 
         public static long Converter(long item, long[,] rules)
         {
-            for (long i = 0; i < rules.Length;i++)
+            for (long i = 0; i < rules.GetLength(0); i++)
             {
-                if (item >= rules[i,1] && item <= rules[i,1] + rules[i,2])
+                if (item >= rules[i, 1] && item <= rules[i, 1] + rules[i, 2])
                 {
-                    return item += rules[i,0] - rules[i,1];
+                    return item += rules[i, 0] - rules[i, 1];
                 }
             }
             return item;
         }
 
+        public static void WriteMatchingIndex(long[] seedData2, long[,] rules)
+        {
+            for (int i = 0; i < seedData2.Length; i += 2)
+            {
+                var p1 = FindMatch(seedData2[i], rules);
+                var p2 = FindMatch(seedData2[i] + seedData2[i + 1], rules);
+                Console.WriteLine(p1);
+                Console.WriteLine(p2);
+            }
+        }
+        public static long FindMatch(long item, long[,] rules)
+        {
+            for (long i = 0; i < rules.GetLength(0); i++)
+            {
+                if (item >= rules[i, 1] && item <= rules[i, 1] + rules[i, 2])
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
         public static long[,] RuleConverter(string[] rules)
         {
-            long[,] result = new long[rules.Length,3];
-            for (int i = 0; i < rules.Length;i++)
+            long[,] result = new long[rules.Length, 3];
+            for (int i = 0; i < rules.GetLength(0); i++)
             {
                 long[] data = rules[i].Split(' ').Select(x => Convert.ToInt64(x)).ToArray();
-                result[i,0] = data[0];
-                result[i,1] = data[1]; 
-                result[i,2] = data[2];
+                result[i, 0] = data[0];
+                result[i, 1] = data[1];
+                result[i, 2] = data[2];
             }
             return result;
         }
