@@ -78,38 +78,35 @@ namespace AoC2023.Solutions
 
             string[] seedData = input[0].Split(' ');
             long[] seedData2 = seedData[1..].Select(x => Convert.ToInt64(x)).ToArray();
+            bool finished = false;
 
-            //for (int i = 0; i < seedData2.Length; i++)
-            //{
-            //    Console.WriteLine(seedData2[i]);
-            //}
-
-            //WriteMatchingIndex(seedData2, seedSoil);
-            //Console.WriteLine();
-            //WriteMatchingIndex(seedData2, soilFert);
-            //Console.WriteLine();
-            //WriteMatchingIndex(seedData2, fertWater);
-            //Console.WriteLine();
-            //WriteMatchingIndex(seedData2, waterLight);
-            //Console.WriteLine();
-            //WriteMatchingIndex(seedData2, lightTemp);
-            //Console.WriteLine();
-            //WriteMatchingIndex(seedData2, tempHum);
-            //Console.WriteLine();
-            //WriteMatchingIndex(seedData2, humLoc);
-
-            long[] p1 = [seedData2[0], seedData2[1]];
-            List<long> p1b = new();
-            for (long j = p1[0]; j <= p1[0] + p1[1]; j++)
+            for (long i = 0; i < 100000000; i++)
             {
-                long temp = Converter(j, seedSoil);
-                if (!p1b.Contains(temp))
+                Console.WriteLine(i);
+                long temp = InvConverter
+                    (InvConverter
+                    (InvConverter
+                    (InvConverter
+                    (InvConverter
+                    (InvConverter
+                    (InvConverter(i, humLoc), tempHum), lightTemp), waterLight), fertWater), soilFert), seedSoil);
+
+                for (long j = 0; j < seedData2.Length; j += 2)
                 {
-                    p1b.Add(temp);
+                    if (temp >= seedData2[j] && temp <= seedData2[j] + seedData2[j + 1] - 1)
+                    {
+                        Console.WriteLine("The winner is;");
+                        Console.WriteLine(i);
+                        finished = true;
+                        break;
+                    }
+                }
+                if (finished)
+                {
+                    break;
                 }
             }
-            Console.WriteLine(p1[1]);
-            Console.WriteLine(p1b.Count);
+
             //long currentLowest = 0;
             //bool firstSet = false;
 
@@ -150,6 +147,18 @@ namespace AoC2023.Solutions
                 if (item >= rules[i, 1] && item <= rules[i, 1] + rules[i, 2])
                 {
                     return item += rules[i, 0] - rules[i, 1];
+                }
+            }
+            return item;
+        }
+
+        public static long InvConverter(long item, long[,] rules)
+        {
+            for (long i = 0; i < rules.GetLength(0); i++)
+            {
+                if (item >= rules[i, 0] && item <= rules[i, 0] + rules[i, 2] - 1)
+                {
+                    return item += rules[i, 1] - rules[i, 0];
                 }
             }
             return item;
