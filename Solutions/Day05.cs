@@ -22,11 +22,11 @@ namespace AoC2023.Solutions
             int sixth = input.ToList().IndexOf("temperature-to-humidity map:");
             int seventh = input.ToList().IndexOf("humidity-to-location map:");
 
-            List<string> seedSoil = input[(first + 1)..(second -1)].ToList();
-            List<string> soilFert = input[(second + 1)..(third -1)].ToList();
+            List<string> seedSoil = input[(first + 1)..(second - 1)].ToList();
+            List<string> soilFert = input[(second + 1)..(third - 1)].ToList();
             List<string> fertWater = input[(third + 1)..(fourth - 1)].ToList();
             List<string> waterLight = input[(fourth + 1)..(fifth - 1)].ToList();
-            List<string> lightTemp = input[(fifth + 1)..(sixth -1)].ToList();
+            List<string> lightTemp = input[(fifth + 1)..(sixth - 1)].ToList();
             List<string> tempHum = input[(sixth + 1)..(seventh - 1)].ToList();
             List<string> humLoc = input[(seventh + 1)..(input.Length)].ToList();
 
@@ -43,7 +43,7 @@ namespace AoC2023.Solutions
                             Converter(
                                 Converter(
                                     Converter(
-                                        Converter(seeds[i], seedSoil), soilFert),fertWater),waterLight),lightTemp),tempHum),humLoc);
+                                        Converter(seeds[i], seedSoil), soilFert), fertWater), waterLight), lightTemp), tempHum), humLoc);
 
             }
 
@@ -70,32 +70,40 @@ namespace AoC2023.Solutions
 
             string[] seedData = input[0].Split(' ');
             List<long> seedData2 = seedData[1..].ToList().Select(x => Convert.ToInt64(x)).ToList();
-            List<long> seeds = new();
+
+            long currentLowest = 0;
+            bool firstSet = false;
 
             for (int i = 0; i < seedData2.Count; i += 2)
             {
                 for (long j = seedData2[i]; j < seedData2[i] + seedData2[i + 1]; j++)
                 {
-                    seeds.Add(j);
-                }
-            }
-
-            for (int i = 0; i < seeds.Count; i++)
-            {
-                seeds[i] = Converter(
-                    Converter(
+                    long temp = Converter(
                         Converter(
                             Converter(
                                 Converter(
                                     Converter(
-                                        Converter(seeds[i], seedSoil), soilFert), fertWater), waterLight), lightTemp), tempHum), humLoc);
-
+                                        Converter(
+                                            Converter(j, seedSoil), soilFert), fertWater), waterLight), lightTemp), tempHum), humLoc);
+                    if (!firstSet)
+                    {
+                        currentLowest = temp;
+                        firstSet = true;
+                    }
+                    else if (temp < currentLowest)
+                    {
+                        currentLowest = temp;
+                        
+                    }
+                    //Console.WriteLine(j);
+                    Console.WriteLine(currentLowest);
+                }
             }
             //foreach (var s in seeds)
             //{
             //    Console.WriteLine(s);
             //}
-            return seeds.Min();
+            return currentLowest;
         }
 
         public static long Converter(long item, List<string> rules)
