@@ -18,4 +18,8 @@
 
 // Day 5
 //Console.WriteLine(Day05.SolutionA());
-Console.WriteLine(Day05.SolutionB());
+//Console.WriteLine(Day05.SolutionB());
+
+// Day 6
+Day06.SolutionA();
+Day06.SolutionB();
