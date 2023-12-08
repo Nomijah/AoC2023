@@ -16,10 +16,14 @@
 //Console.WriteLine(Day04.SolutionA());
 //Console.WriteLine(Day04.SolutionB());
 
-// Day 5
+//// Day 5
 //Console.WriteLine(Day05.SolutionA());
 //Console.WriteLine(Day05.SolutionB());
 
-// Day 6
-Day06.SolutionA();
-Day06.SolutionB();
+//// Day 6
+//Day06.SolutionA();
+//Day06.SolutionB();
+
+// Day 7
+Day07.SolutionA();
+Day07.SolutionB();
