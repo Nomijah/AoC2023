@@ -99,52 +99,83 @@ namespace AoC2023.Solutions
 
             int[] currentIndex = endWithAIndexes.ToArray();
             int[] zIndex = endWithZIndexes.ToArray();
+            long sum = 1;
+            bool next = false;
 
-            while (!finished)
+            long[] endPoints = new long[currentIndex.Length];
+
+            for (int j = 0; j < currentIndex.Length; j++)
             {
+                counter = 0;
                 for (int i = 0; i < instructions.Length; i++)
                 {
-                    for (int j = 0; j < currentIndex.Length; j++)
+                    if (instructions[i] == 'L')
                     {
-                        if (instructions[i] == 'L')
-                        {
-                            currentIndex[j] = nodeNames.GetValueOrDefault(nodes[currentIndex[j], 1]);
-                        }
-                        else
-                        {
-                            currentIndex[j] = nodeNames.GetValueOrDefault(nodes[currentIndex[j], 2]);
-                        }
+                        currentIndex[j] = nodeNames.GetValueOrDefault(nodes[currentIndex[j], 1]);
                     }
-                    int endCounter = 0;
-                    foreach (var num in currentIndex)
+                    else
                     {
-                        for (int k = 0; k < zIndex.Length; k++)
+                        currentIndex[j] = nodeNames.GetValueOrDefault(nodes[currentIndex[j], 2]);
+                    }
+                    counter++;
+                    for (int k = 0; k < zIndex.Length; k++)
+                    {
+                        if (zIndex[k] == currentIndex[j])
                         {
-                            if (endWithZIndexes[k] == num)
-                            {
-                                endCounter++;
-                            }
-                        }
-                        if (endCounter == 0)
-                        {
+                            endPoints[j] = counter;
+                            next = true;
                             break;
                         }
                     }
-                    counter++;
-                    if (endCounter == 6)
+                    if (next)
                     {
-                        finished = true;
+                        next = false;
                         break;
                     }
                     if (i == instructions.Length - 1)
                     {
                         i = -1;
                     }
-                    //Console.WriteLine(counter);
                 }
             }
-            Console.WriteLine("svar");
-            Console.WriteLine(counter);
+            for (int i = 0; i < endPoints.Length; i++)
+            {
+                Console.WriteLine(endPoints[i]);
+            }
+
+            Console.WriteLine(FindLCM(endPoints));
+
+        }
+
+        public static long FindLCM(long[] numbers)
+        {
+            numbers = numbers.Order().ToArray();
+            int multiplier = 1;
+            int numberOfElements = numbers.Length;
+            bool allMatch = false;
+
+            while (!allMatch)
+            {
+                int matches = 0;
+                for (int i = 0; i < numberOfElements - 1; i++)
+                {
+                    if (numbers[numbers.Length - 1] * multiplier % numbers[i] == 0)
+                    {
+                        matches++;
+                    }
+                }
+                if (matches > 3)
+                {
+                    Console.WriteLine(numbers[numbers.Length - 1] * multiplier);
+                }
+                if (matches == numbers.Length - 1)
+                {
+                    return numbers[numbers.Length - 1] * multiplier;
+                }
+                multiplier++;
+            }
+
+            return -1;
         }
     }
 
