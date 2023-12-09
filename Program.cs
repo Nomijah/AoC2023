@@ -29,4 +29,9 @@
 //Day07.SolutionB();
 
 // Day 8
-Day08.SolutionA();
+//Day08.SolutionA();
+Day08.SolutionB();
+
+//// Day 9
+//Day09.SolutionA();
+//Day09.SolutionB();
