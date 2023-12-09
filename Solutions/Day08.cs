@@ -138,13 +138,7 @@ namespace AoC2023.Solutions
                     }
                 }
             }
-            for (int i = 0; i < endPoints.Length; i++)
-            {
-                Console.WriteLine(endPoints[i]);
-            }
-
             Console.WriteLine(FindLCM(endPoints));
-
         }
 
         public static long FindLCM(long[] numbers)
@@ -163,10 +157,6 @@ namespace AoC2023.Solutions
                     {
                         matches++;
                     }
-                }
-                if (matches > 3)
-                {
-                    Console.WriteLine(numbers[numbers.Length - 1] * multiplier);
                 }
                 if (matches == numbers.Length - 1)
                 {
