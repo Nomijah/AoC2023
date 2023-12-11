@@ -30,8 +30,16 @@
 
 // Day 8
 //Day08.SolutionA();
-Day08.SolutionB();
+//Day08.SolutionB();
 
 //// Day 9
 //Day09.SolutionA();
 //Day09.SolutionB();
+
+//// Day 10
+//Day10.SolutionA();
+//Day10.SolutionB();
+
+// Day 11
+//Day11.SolutionA();
+Day11.SolutionB();
