@@ -9,8 +9,8 @@ namespace AoC2023.Solutions
     internal class Day11
     {
         public static string testData = "...#......\r\n.......#..\r\n#.........\r\n..........\r\n......#...\r\n.#........\r\n.........#\r\n..........\r\n.......#..\r\n#...#.....";
-        public static string[] input = testData.Split("\r\n");
-        //public static string[] input = TextFormatter.ToLines("C:\\Users\\pette\\source\\repos\\AoC2023\\Data\\Day11.txt");
+        //public static string[] input = testData.Split("\r\n");
+        public static string[] input = TextFormatter.ToLines("C:\\Users\\pette\\source\\repos\\AoC2023\\Data\\Day11.txt");
 
 
         public static void SolutionA()
@@ -32,7 +32,7 @@ namespace AoC2023.Solutions
             int sum = 0;
             for (int i = 0; i < galaxies.Length - 1; i++)
             {
-                for (int j = i; j < galaxies.Length; j++)
+                for (int j = i + 1; j < galaxies.Length; j++)
                 {
                     if (galaxies[i].y >= galaxies[j].y)
                         sum += galaxies[i].y - galaxies[j].y;
@@ -56,46 +56,57 @@ namespace AoC2023.Solutions
             Coordinate[] galaxies = GetGalaxyPositions(data);
 
             long sum = 0;
-            long extra = 9;
+            long extra = 999999;
             for (int i = 0; i < galaxies.Length - 1; i++)
             {
-                for (int j = i; j < galaxies.Length; j++)
+                for (int j = i + 1; j < galaxies.Length; j++)
                 {
                     if (galaxies[i].y >= galaxies[j].y)
                     {
                         sum += galaxies[i].y - galaxies[j].y;
-                        for (int k = 0; k < columnsToAdd.Length; k++)
+                        if (galaxies[i].y - galaxies[j].y > 1)
                         {
-                            if (columnsToAdd[k] < galaxies[i].y && columnsToAdd[k] > galaxies[j].y)
-                                sum += extra;
+                            for (int k = 0; k < rowsToAdd.Length; k++)
+                            {
+                                if (rowsToAdd[k] < galaxies[i].y && rowsToAdd[k] > galaxies[j].y)
+                                    sum += extra;
+                            }
                         }
                     }
                     else
                     {
                         sum += galaxies[j].y - galaxies[i].y;
-                        for (int k = 0; k < columnsToAdd.Length; k++)
+                        if (galaxies[j].y - galaxies[i].y > 1)
                         {
-                            if (columnsToAdd[k] > galaxies[i].y && columnsToAdd[k] < galaxies[j].y)
-                                sum += extra;
+                            for (int k = 0; k < rowsToAdd.Length; k++)
+                            {
+                                if (rowsToAdd[k] > galaxies[i].y && rowsToAdd[k] < galaxies[j].y)
+                                    sum += extra;
+                            }
                         }
                     }
                     if (galaxies[i].x >= galaxies[j].x)
                     {
                         sum += galaxies[i].x - galaxies[j].x;
-                        for (int k = 0; k < columnsToAdd.Length; k++)
+                        if (galaxies[i].x - galaxies[j].x > 1)
                         {
-                            if (columnsToAdd[k] < galaxies[i].x && columnsToAdd[k] > galaxies[j].x)
-                                sum += extra;
+                            for (int k = 0; k < columnsToAdd.Length; k++)
+                            {
+                                if (columnsToAdd[k] < galaxies[i].x && columnsToAdd[k] > galaxies[j].x)
+                                    sum += extra;
+                            }
                         }
                     }
                     else
                     {
                         sum += galaxies[j].x - galaxies[i].x;
-                        sum += galaxies[i].x - galaxies[j].x;
-                        for (int k = 0; k < columnsToAdd.Length; k++)
+                        if (galaxies[j].x - galaxies[i].x > 1)
                         {
-                            if (columnsToAdd[k] > galaxies[i].x && columnsToAdd[k] < galaxies[j].x)
-                                sum += extra;
+                            for (int k = 0; k < columnsToAdd.Length; k++)
+                            {
+                                if (columnsToAdd[k] > galaxies[i].x && columnsToAdd[k] < galaxies[j].x)
+                                    sum += extra;
+                            }
                         }
                     }
                 }

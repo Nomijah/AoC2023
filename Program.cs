@@ -38,8 +38,8 @@
 
 //// Day 10
 //Day10.SolutionA();
-//Day10.SolutionB();
+Day10.SolutionB();
 
 // Day 11
 //Day11.SolutionA();
-Day11.SolutionB();
+//Day11.SolutionB();

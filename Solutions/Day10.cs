@@ -3,7 +3,8 @@
     internal class Day10
     {
         public static string testData = "7-F7-\r\n.FJ|7\r\nSJLL7\r\n|F--J\r\nLJ.LJ";
-        //public static string[] input = testData.Split("\r\n", StringSplitOptions.TrimEntries);
+        public static string testData2 = ".F----7F7F7F7F-7....\r\n.|F--7||||||||FJ....\r\n.||.FJ||||||||L7....\r\nFJL7L7LJLJ||LJ.L-7..\r\nL--J.L7...LJS7F-7L7.\r\n....F-J..F7FJ|L7L7L7\r\n....L7.F7||L7|.L7L7|\r\n.....|FJLJ|FJ|F7|.LJ\r\n....FJL-7.||.||||...\r\n....L---J.LJ.LJLJ...";
+        //public static string[] input = testData2.Split("\r\n", StringSplitOptions.TrimEntries);
         public static string[] input = TextFormatter.ToLines("C:\\Users\\pette\\source\\repos\\AoC2023\\Data\\Day10.txt");
 
 
@@ -231,12 +232,13 @@
 
             Coordinate current = firstPart;
             Coordinate previous = startingPoint;
+            pipeParts.Add(previous);
             bool backToStart = false;
             int steps = 1;
 
             while (!backToStart)
             {
-                    pipeParts.Add(current);
+                pipeParts.Add(current);
                 if (current.y < previous.y)
                 {
                     previous = current;
@@ -312,9 +314,87 @@
                 }
             }
 
-            PrintMap(map, pipeParts);
+            // Convert S
+            char westOfS = map[startingPoint.y, startingPoint.x - 1];
+            char eastOfS = map[startingPoint.y, startingPoint.x + 1];
+            char northOfS = map[startingPoint.y - 1, startingPoint.x];
+            char southOfS = map[startingPoint.y + 1, startingPoint.x + 1];
+            int combo = 0;
+            if (eastOfS == '7' || eastOfS == '-' || eastOfS == 'J')
+                combo += 1;
+            if (northOfS == '|' || northOfS == 'F' || northOfS == '7')
+                combo += 3;
+            if (westOfS == '-' || westOfS == 'L' || westOfS == 'F')
+                combo += 6;
+            if (southOfS == '|' || westOfS == 'L' || eastOfS == 'J')
+                combo += 10;
+            switch (combo)
+            {
+                case 4:
+                    map[startingPoint.y, startingPoint.x] = 'L';
+                    break;
+                case 7:
+                    map[startingPoint.y, startingPoint.x] = '-';
+                    break;
+                case 11:
+                    map[startingPoint.y, startingPoint.x] = 'F';
+                    break;
+                case 9:
+                    map[startingPoint.y, startingPoint.x] = 'J';
+                    break;
+                case 13:
+                    map[startingPoint.y, startingPoint.x] = '|';
+                    break;
+                case 16:
+                    map[startingPoint.y, startingPoint.x] = '7';
+                    break;
+            }
 
-            
+            List<Coordinate> enclosed = new();
+
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                bool inside = false;
+                char last = 'Q';
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    if (pipeParts.Contains(new Coordinate(i, j)))
+                    {
+                        switch (map[i, j])
+                        {
+                            case '|':
+                                inside = !inside;
+                                last = '|';
+                                break;
+                            case '7':
+                                if (last == 'L')
+                                    inside = !inside;
+                                last = '7';
+                                break;
+                            case 'J':
+                                if (last == 'F')
+                                    inside = !inside;
+                                last = 'J';
+                                break;
+                            case 'F':
+                                last = 'F';
+                                break;
+                            case 'L':
+                                last = 'L';
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else if (inside)
+                        enclosed.Add(new Coordinate(i, j));
+                }
+            }
+
+            PrintMap2(map, pipeParts, enclosed);
+
+            Console.WriteLine(enclosed.Count);
+
         }
 
         public static void PrintMap(char[,] map, List<Coordinate> pipes)
@@ -326,6 +406,32 @@
                     if (pipes.Contains(new Coordinate(i, j)))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write(map[i, j]);
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write(map[i, j]);
+                    }
+                }
+                Console.WriteLine();
+            }
+        }
+
+        public static void PrintMap2(char[,] map, List<Coordinate> pipes, List<Coordinate> enclosed)
+        {
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    if (pipes.Contains(new Coordinate(i, j)))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write(map[i, j]);
+                    }
+                    else if (enclosed.Contains(new Coordinate(i, j)))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write(map[i, j]);
                     }
                     else
