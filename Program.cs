@@ -38,8 +38,19 @@
 
 //// Day 10
 //Day10.SolutionA();
-Day10.SolutionB();
+//Day10.SolutionB();
 
 // Day 11
 //Day11.SolutionA();
 //Day11.SolutionB();
+
+//// Day 12
+//Day12.SolutionA();  // Not solved
+
+//// Day 13
+//Day13.SolutionA();
+//Day13.SolutionB();  // Not solved
+
+// Day 14
+//Day14.SolutionA();
+Day14.SolutionB();
