@@ -51,6 +51,10 @@
 //Day13.SolutionA();
 //Day13.SolutionB();  // Not solved
 
-// Day 14
+//// Day 14
 //Day14.SolutionA();
-Day14.SolutionB();
+//Day14.SolutionB();
+
+//// Day 15
+//Day15.SolutionA();
+Day15.SolutionB();
